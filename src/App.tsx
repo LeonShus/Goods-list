@@ -1,59 +1,29 @@
-import React, {useContext, useEffect} from "react";
-import {Context} from "./index";
+import React, {useEffect} from "react";
 import styles from "./App.module.scss";
-import { collection, addDoc, getDocs, doc, setDoc } from "firebase/firestore";
-import {v1} from "uuid";
-
+import {HashRouter, Navigate, Route, Routes} from "react-router-dom"
+import {GoodsPage} from "./s3-components/c1-goods-page/goods-page";
+import {BasketPage} from "./s3-components/c2-basket/basket-page";
+import {useAction} from "./s2-common/c1-hooks/hooks";
+import {goodsAsyncAction} from "./s1-bll/b4-actions/a1-goods"
 
 
 export const App = () => {
 
-    const {firestore} = useContext(Context)
-
-    const setDocs = async () => {
-
-        try {
-            const id = v1()
-            const res = await setDoc(doc(firestore, "goods", id), {
-                name: "Sony",
-                model: "1111",
-                year: 20092
-            });
-        } catch (e) {
-            console.log("Error", e)
-        }
-    }
-
-    const addGoods = async () => {
-        try{
-            const res = await addDoc(collection(firestore, "goods"), {
-                name: "TV",
-                model: "55UTR",
-                year: 2010
-            })
-            console.log("Document written with ID: ", res.id)
-        } catch (e) {
-            console.log("Error", e)
-        }
-    }
-    console.log(firestore)
-    const getGoodsCollection = async () => {
-        let res = await getDocs(collection(firestore, "goods"))
-
-        res.forEach(el => {
-            console.log(`${el.id} => ${JSON.stringify(el.data())}`)
-        })
-    }
+    const {getGoodsList} = useAction(goodsAsyncAction)
 
     useEffect(() => {
-        getGoodsCollection()
+        getGoodsList({})
     }, [])
 
     return (
-        <div className={styles.container}>
-            Goods
-            <button onClick={addGoods}>Add</button>
-            <button onClick={setDocs}>Set</button>
-        </div>
+        <HashRouter>
+            <div className={styles.container}>
+                <Routes>
+                    <Route path={"/"} element={<Navigate to={"/goods"}/>}/>
+                    <Route path={"goods"} element={<GoodsPage/>}/>
+                    <Route path={"basket"} element={<BasketPage/>}/>
+                </Routes>
+            </div>
+        </HashRouter>
     );
 }
