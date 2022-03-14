@@ -5,6 +5,7 @@ import {GoodsPage} from "./s3-components/c1-goods-page/goods-page";
 import {BasketPage} from "./s3-components/c2-basket/basket-page";
 import {useAction} from "./s2-common/c1-hooks/hooks";
 import {goodsAsyncAction} from "./s1-bll/b4-actions/a1-goods"
+import {Header} from "./s2-common/c3-components/c1-header/header";
 
 
 export const App = () => {
@@ -17,6 +18,9 @@ export const App = () => {
 
     return (
         <HashRouter>
+
+            <Header/>
+
             <div className={styles.container}>
                 <Routes>
                     <Route path={"/"} element={<Navigate to={"/goods"}/>}/>

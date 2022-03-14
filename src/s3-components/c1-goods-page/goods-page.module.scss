@@ -1,4 +1,6 @@
 .container{
-  border: 1px solid green;
   display: flex;
+  justify-content: center;
+  max-width: 1400px;
+  flex-wrap: wrap;
 }

@@ -1,0 +1,10 @@
+@import "./s2-common/c2-sass/variables.sass";
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body{
+  font-family: $primaryFontFamily;
+}
