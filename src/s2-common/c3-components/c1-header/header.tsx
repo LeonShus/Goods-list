@@ -7,9 +7,15 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import Badge from "@mui/material/Badge";
 import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
-
+import {goodsSelectors} from "../../../s1-bll/b3-selectors/s1-goods";
+import {useSelector} from "react-redux";
 
 export const Header = () => {
+    const {arrOfBasket} = goodsSelectors
+    const basket = useSelector(arrOfBasket)
+
+    const basketPrise = basket.reduce((sum, el) => sum + +el.prise.slice(1), 0)
+
     return (
         <Box sx={{flexGrow: 1}}>
             <AppBar position="static">
@@ -35,7 +41,7 @@ export const Header = () => {
                         sx={{mr: 2}}
                     >
                         <Badge
-                            badgeContent={"$" + 123123}
+                            badgeContent={basketPrise && "$" + basketPrise}
                             color="error"
                             max={999999}
                         >

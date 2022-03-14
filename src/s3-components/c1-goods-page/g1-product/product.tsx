@@ -1,13 +1,21 @@
 import React from "react"
 import styles from "./product.module.scss"
-import {ProductType} from "../../../s1-bll/b2-reducers/r1-goods/goods-reducer"
+import {addProductToBasket, ProductType} from "../../../s1-bll/b2-reducers/r1-goods/goods-reducer"
 import Button from "@mui/material/Button"
+import {useDispatch} from "react-redux";
 
 type ProductPropsType = {
     product: ProductType
 }
 
 export const Product = ({product}: ProductPropsType) => {
+
+    const dispatch = useDispatch()
+
+    const addProduct = () => {
+        dispatch(addProductToBasket({productId: product.id}))
+    }
+
     return (
         <div className={styles.container}>
             <div>
@@ -27,6 +35,7 @@ export const Product = ({product}: ProductPropsType) => {
                 <Button
                     variant={"contained"}
                     sx={{margin: "10px 0 10px 0"}}
+                    onClick={addProduct}
                 >
                     Buy
                 </Button>

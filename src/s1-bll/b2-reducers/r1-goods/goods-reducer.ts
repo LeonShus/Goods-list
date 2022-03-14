@@ -1,4 +1,4 @@
-import {createSlice} from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import { goodsAsyncAction } from "../../b4-actions/a1-goods";
 
 const {getGoodsList} = goodsAsyncAction
@@ -14,13 +14,21 @@ export type ProductType = {
 }
 
 const initialState = {
-    goods: [] as ProductType[]
+    goods: [] as ProductType[],
+    basket: [] as ProductType[]
 }
 
 const goodsSlice = createSlice({
     name: "goods",
     initialState,
-    reducers: {},
+    reducers: {
+        addProductToBasket(state, action: PayloadAction<{productId: string}>){
+            const prodIndex = state.goods.findIndex(el => el.id === action.payload.productId)
+
+            state.basket.push(state.goods[prodIndex])
+
+        }
+    },
     extraReducers: builder => {
         builder
             .addCase(getGoodsList.fulfilled, (state, action) => {
@@ -31,5 +39,5 @@ const goodsSlice = createSlice({
     }
 })
 
-
 export const goodsReducer = goodsSlice.reducer
+export const {addProductToBasket} =  goodsSlice.actions
