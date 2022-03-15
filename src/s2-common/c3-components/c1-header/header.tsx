@@ -9,12 +9,13 @@ import Badge from "@mui/material/Badge";
 import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 import {goodsSelectors} from "../../../s1-bll/b3-selectors/s1-goods";
 import {useSelector} from "react-redux";
+import {Link} from "react-router-dom";
 
 export const Header = () => {
     const {arrOfBasket} = goodsSelectors
     const basket = useSelector(arrOfBasket)
 
-    const basketPrise = basket.reduce((sum, el) => sum + +el.prise.slice(1), 0)
+    const basketPrise = basket.reduce((sum, el) => sum + (+el.prise.slice(1) * el.copies), 0)
 
     return (
         <Box sx={{flexGrow: 1}}>
@@ -29,25 +30,33 @@ export const Header = () => {
                     >
                         <MenuIcon/>
                     </IconButton>
+
+
                     <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
-                        Goods
+                        <Link to={"/goods"} style={{textDecoration: "none", color: "white"}}>
+                            Goods
+                        </Link>
                     </Typography>
 
-                    <IconButton
-                        size="large"
-                        edge="start"
-                        color="inherit"
-                        aria-label="menu"
-                        sx={{mr: 2}}
-                    >
-                        <Badge
-                            badgeContent={basketPrise && "$" + basketPrise}
-                            color="error"
-                            max={999999}
+
+                    <Link to={"/basket"} style={{textDecoration: "none", color: "white"}}>
+                        <IconButton
+                            size="large"
+                            edge="start"
+                            color="inherit"
+                            aria-label="menu"
+                            sx={{mr: 2}}
                         >
-                            <ShoppingBasketIcon/>
-                        </Badge>
-                    </IconButton>
+                            <Badge
+                                badgeContent={basketPrise && "$" + basketPrise}
+                                color="error"
+                                max={999999}
+                            >
+                                <ShoppingBasketIcon/>
+                            </Badge>
+                        </IconButton>
+                    </Link>
+
 
                 </Toolbar>
             </AppBar>

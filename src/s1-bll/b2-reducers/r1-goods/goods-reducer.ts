@@ -11,6 +11,7 @@ export type ProductType = {
     model: string
     prise: string
     img: string
+    copies: number
 }
 
 const initialState = {
@@ -27,6 +28,21 @@ const goodsSlice = createSlice({
 
             state.basket.push(state.goods[prodIndex])
 
+        },
+        increaseCopies(state, action: PayloadAction<{productId: string}>){
+            const prodIndex = state.basket.findIndex(el => el.id === action.payload.productId)
+
+            state.basket[prodIndex].copies += 1
+        },
+        decreaseCopies(state, action: PayloadAction<{productId: string}>){
+            const prodIndex = state.basket.findIndex(el => el.id === action.payload.productId)
+
+            state.basket[prodIndex].copies -= 1
+        },
+        removeProductFromBasket(state, action: PayloadAction<{productId: string}>){
+            const prodIndex = state.basket.findIndex(el => el.id === action.payload.productId)
+
+            state.basket.splice(prodIndex,1)
         }
     },
     extraReducers: builder => {
@@ -40,4 +56,4 @@ const goodsSlice = createSlice({
 })
 
 export const goodsReducer = goodsSlice.reducer
-export const {addProductToBasket} =  goodsSlice.actions
+export const {addProductToBasket, increaseCopies, decreaseCopies, removeProductFromBasket} =  goodsSlice.actions
