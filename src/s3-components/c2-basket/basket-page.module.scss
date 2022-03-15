@@ -1,6 +1,21 @@
 .container{
   display: flex;
-  justify-content: center;
-  max-width: 1400px;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  .buyContainer{
+    padding: 10px 20px 10px 20px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.08);
+    .prise{
+      font-size: 1.8rem;
+      margin-right: 30px;
+    }
+  }
+  .containerItems{
+    display: flex;
+    justify-content: center;
+    max-width: 1400px;
+    flex-wrap: wrap;
+  }
 }

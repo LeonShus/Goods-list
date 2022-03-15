@@ -42,8 +42,8 @@ export const ProductInBasket = ({product}: ProductInBasketPropsType) => {
                     sx={{
                         mr: 2,
                         position: "absolute",
-                        left: "248px",
-                        top: "-4px"
+                        left: "244px",
+                        top: "0"
                     }}
                     onClick={removeItem}
                 >
@@ -70,8 +70,7 @@ export const ProductInBasket = ({product}: ProductInBasketPropsType) => {
                 <Button
                     variant={"outlined"}
                     sx={{margin: "10px 0 10px 0"}}
-                    onClick={decreaseCopy}
-                    disabled={product.copies <= 1}
+                    onClick={product.copies === 1 ? removeItem : decreaseCopy}
                 >
                     -
                 </Button>
