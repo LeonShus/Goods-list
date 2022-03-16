@@ -1,8 +1,10 @@
 import {combineReducers, configureStore} from "@reduxjs/toolkit";
 import { goodsReducer } from "../b2-reducers/r1-goods/goods-reducer";
 import thunk from "redux-thunk"
+import {appReducer} from "../b2-reducers/r2-app/app-reducer";
 
 const rootReducer = combineReducers({
+    app: appReducer,
     goods: goodsReducer
 })
 
