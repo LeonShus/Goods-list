@@ -1,0 +1,17 @@
+.container{
+  padding: 40px;
+  display: flex;
+  .formContainer{
+    display: flex;
+    flex-direction: column;
+    .inputContainer{
+      position: relative;
+      margin-bottom: 36px;
+      .error{
+        position: absolute;
+        top: 58px;
+        color: #D32F2F;
+      }
+    }
+  }
+}

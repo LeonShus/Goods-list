@@ -1,12 +1,23 @@
-import React from "react"
+import React, {useState} from "react"
 import {goodsSelectors} from "../../s1-bll/b3-selectors/s1-goods";
 import {useSelector} from "react-redux";
 import {ProductInBasket} from "./b1-product-in-basket/product-in-basker";
 import styles from "./basket-page.module.scss"
 import Button from "@mui/material/Button";
+import {ModalCustom} from "../../s2-common/c3-components/c2-modal/modal";
+import {BuyForm} from "./b2-buy-form/buy-form";
 
 
 export const BasketPage = () => {
+
+    const [wantToBuy, setWantToBuy] = useState(false)
+
+    const openBuyModal = () => {
+        setWantToBuy(true)
+    }
+    const closeBuyModal = () => {
+        setWantToBuy(false)
+    }
 
     const {arrOfBasket} = goodsSelectors
 
@@ -16,26 +27,40 @@ export const BasketPage = () => {
 
     const goodsInBasketComponents = goodsInBasket.map(el => {
         return (
-          <ProductInBasket key={el.id} product={el}/>
+            <ProductInBasket key={el.id} product={el}/>
         )
     })
 
-    return(
+    return (
         <div className={styles.container}>
-            <div className={styles.buyContainer}>
-                <div className={styles.prise}>
-                    {"$" + basketPrise}
+            <ModalCustom
+                isOpen={wantToBuy}
+                close={closeBuyModal}
+            >
+                <div>
+                    <BuyForm/>
                 </div>
-                <Button
-                    variant={"contained"}
-                >
-                    Buy
-                </Button>
-            </div>
+            </ModalCustom>
+
+            {basketPrise ?
+                <div className={styles.buyContainer}>
+                    <div className={styles.prise}>
+                        {"$" + basketPrise}
+                    </div>
+                    <Button
+                        variant={"contained"}
+                        onClick={openBuyModal}
+                    >
+                        Buy
+                    </Button>
+                </div>
+                :
+                <h2>Basket is empty</h2>
+            }
+
             <div className={styles.containerItems}>
                 {goodsInBasketComponents}
             </div>
         </div>
-
     )
 }
