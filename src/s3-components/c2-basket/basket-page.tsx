@@ -51,7 +51,7 @@ export const BasketPage = () => {
                         variant={"contained"}
                         onClick={openBuyModal}
                     >
-                        Buy
+                        Order
                     </Button>
                 </div>
                 :

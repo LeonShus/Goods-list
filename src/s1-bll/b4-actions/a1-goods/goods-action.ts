@@ -1,6 +1,8 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {collection, getDocs, getFirestore} from "firebase/firestore";
 import {initializeApp} from "firebase/app";
+import {setIsFetching, setPopupMessages} from "../../b2-reducers/r2-app/app-reducer";
+import {v1} from "uuid";
 
 const firebaseConfig = {
     apiKey: "AIzaSyCwO1g2KqfL1_uQk5HBFixmniDtO44szTg",
@@ -19,6 +21,7 @@ export const getGoodsList = createAsyncThunk(
     "goods/getGoodsList",
     async (param: {}, thunkAPI) => {
         try {
+            thunkAPI.dispatch(setIsFetching({isFetching: true}))
             const res = await getDocs(collection(firestore, "goods"))
 
             let goods: any = []
@@ -27,10 +30,16 @@ export const getGoodsList = createAsyncThunk(
                 goods.push(el.data())
             })
             return {goods: goods}
-        } catch (e) {
-
+        } catch (e: any) {
+            thunkAPI.dispatch(setPopupMessages({
+                popupMessage: {
+                    type: "error",
+                    message: `${e.response.data.error}`,
+                    id: v1()
+                }
+            }))
         } finally {
-
+            thunkAPI.dispatch(setIsFetching({isFetching: false}))
         }
     }
 )
