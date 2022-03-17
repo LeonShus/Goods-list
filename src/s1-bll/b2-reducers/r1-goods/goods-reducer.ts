@@ -43,6 +43,9 @@ const goodsSlice = createSlice({
             const prodIndex = state.basket.findIndex(el => el.id === action.payload.productId)
 
             state.basket.splice(prodIndex,1)
+        },
+        removeBasket(state, action: PayloadAction){
+            state.basket = []
         }
     },
     extraReducers: builder => {
@@ -56,4 +59,4 @@ const goodsSlice = createSlice({
 })
 
 export const goodsReducer = goodsSlice.reducer
-export const {addProductToBasket, increaseCopies, decreaseCopies, removeProductFromBasket} =  goodsSlice.actions
+export const {addProductToBasket, increaseCopies, decreaseCopies, removeProductFromBasket, removeBasket} =  goodsSlice.actions

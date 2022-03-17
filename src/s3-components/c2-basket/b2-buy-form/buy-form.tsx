@@ -4,8 +4,12 @@ import {useFormik} from "formik"
 import * as Yup from "yup"
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import {useAction} from "../../../s2-common/c1-hooks/hooks";
+import {goodsAsyncAction} from "../../../s1-bll/b4-actions/a1-goods";
 
 export const BuyForm = () => {
+
+    const {addOrder} = useAction(goodsAsyncAction)
     
     const formik = useFormik({
         initialValues: {
@@ -24,7 +28,7 @@ export const BuyForm = () => {
                 .required("Required"),
         }),
         onSubmit: values => {
-            alert(JSON.stringify(values, null, 2));
+            addOrder({fullName: values.fullName, address: values.address, phone: values.phone})
         },
 
     })
