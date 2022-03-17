@@ -75,6 +75,13 @@ export const addOrder = createAsyncThunk<{},AddOrderParamsType,{state: RootState
             const res = await setDoc(doc(db, "Orders", v1()), {
                 orderData
             })
+            thunkAPI.dispatch(setPopupMessages({
+                popupMessage: {
+                    type: "success",
+                    message: `Thanks for your order!`,
+                    id: v1()
+                }
+            }))
             thunkAPI.dispatch(removeBasket())
         } catch (e: any) {
             thunkAPI.dispatch(setPopupMessages({

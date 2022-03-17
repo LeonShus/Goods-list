@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import { goodsAsyncAction } from "../../b4-actions/a1-goods";
+import {goodsAsyncAction} from "../../b4-actions/a1-goods";
 
 const {getGoodsList} = goodsAsyncAction
 
@@ -23,35 +23,41 @@ const goodsSlice = createSlice({
     name: "goods",
     initialState,
     reducers: {
-        addProductToBasket(state, action: PayloadAction<{productId: string}>){
+        addProductToBasket(state, action: PayloadAction<{ productId: string }>) {
             const prodIndex = state.goods.findIndex(el => el.id === action.payload.productId)
 
             state.basket.push(state.goods[prodIndex])
-
+            localStorage.setItem("userBasket", JSON.stringify(state.basket))
         },
-        increaseCopies(state, action: PayloadAction<{productId: string}>){
+        increaseCopies(state, action: PayloadAction<{ productId: string }>) {
             const prodIndex = state.basket.findIndex(el => el.id === action.payload.productId)
 
             state.basket[prodIndex].copies += 1
+            localStorage.setItem("userBasket", JSON.stringify(state.basket))
         },
-        decreaseCopies(state, action: PayloadAction<{productId: string}>){
+        decreaseCopies(state, action: PayloadAction<{ productId: string }>) {
             const prodIndex = state.basket.findIndex(el => el.id === action.payload.productId)
 
             state.basket[prodIndex].copies -= 1
+            localStorage.setItem("userBasket", JSON.stringify(state.basket))
         },
-        removeProductFromBasket(state, action: PayloadAction<{productId: string}>){
+        removeProductFromBasket(state, action: PayloadAction<{ productId: string }>) {
             const prodIndex = state.basket.findIndex(el => el.id === action.payload.productId)
 
-            state.basket.splice(prodIndex,1)
+            state.basket.splice(prodIndex, 1)
         },
-        removeBasket(state, action: PayloadAction){
+        removeBasket(state, action: PayloadAction) {
             state.basket = []
+        },
+        setBasket(state, action: PayloadAction) {
+            const localBasket = localStorage.getItem("userBasket")
+            state.basket = JSON.parse(localBasket ? localBasket : "[]")
         }
     },
     extraReducers: builder => {
         builder
             .addCase(getGoodsList.fulfilled, (state, action) => {
-                if(action.payload){
+                if (action.payload) {
                     state.goods = action.payload.goods
                 }
             })
@@ -59,4 +65,11 @@ const goodsSlice = createSlice({
 })
 
 export const goodsReducer = goodsSlice.reducer
-export const {addProductToBasket, increaseCopies, decreaseCopies, removeProductFromBasket, removeBasket} =  goodsSlice.actions
+export const {
+    addProductToBasket,
+    increaseCopies,
+    decreaseCopies,
+    removeProductFromBasket,
+    removeBasket,
+    setBasket
+} = goodsSlice.actions

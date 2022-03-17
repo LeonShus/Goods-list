@@ -6,6 +6,7 @@ import styles from "./basket-page.module.scss"
 import Button from "@mui/material/Button";
 import {ModalCustom} from "../../s2-common/c3-components/c2-modal/modal";
 import {BuyForm} from "./b2-buy-form/buy-form";
+import {Link} from "react-router-dom";
 
 
 export const BasketPage = () => {
@@ -55,7 +56,16 @@ export const BasketPage = () => {
                     </Button>
                 </div>
                 :
-                <h2>Basket is empty</h2>
+                <div className={styles.emptyContainer}>
+                    <h2>Basket is empty</h2>
+                    <Link to={"/goods"}>
+                        <Button>
+                            Continue shopping
+                        </Button>
+                    </Link>
+
+                </div>
+
             }
 
             <div className={styles.containerItems}>

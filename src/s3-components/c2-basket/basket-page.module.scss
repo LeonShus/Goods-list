@@ -12,6 +12,12 @@
       margin-right: 30px;
     }
   }
+  .emptyContainer{
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.08);
+  }
   .containerItems{
     display: flex;
     justify-content: center;
