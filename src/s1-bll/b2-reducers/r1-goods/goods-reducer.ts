@@ -19,6 +19,10 @@ const initialState = {
     basket: [] as ProductType[]
 }
 
+const updateLocalStorage = (storName: string, data: string) => {
+    localStorage.setItem(storName, data)
+}
+
 const goodsSlice = createSlice({
     name: "goods",
     initialState,
@@ -27,29 +31,31 @@ const goodsSlice = createSlice({
             const prodIndex = state.goods.findIndex(el => el.id === action.payload.productId)
 
             state.basket.push(state.goods[prodIndex])
-            localStorage.setItem("userBasket", JSON.stringify(state.basket))
+            updateLocalStorage("userBasket", JSON.stringify(state.basket))
         },
         increaseCopies(state, action: PayloadAction<{ productId: string }>) {
             const prodIndex = state.basket.findIndex(el => el.id === action.payload.productId)
 
             state.basket[prodIndex].copies += 1
-            localStorage.setItem("userBasket", JSON.stringify(state.basket))
+            updateLocalStorage("userBasket", JSON.stringify(state.basket))
         },
         decreaseCopies(state, action: PayloadAction<{ productId: string }>) {
             const prodIndex = state.basket.findIndex(el => el.id === action.payload.productId)
 
             state.basket[prodIndex].copies -= 1
-            localStorage.setItem("userBasket", JSON.stringify(state.basket))
+            updateLocalStorage("userBasket", JSON.stringify(state.basket))
         },
         removeProductFromBasket(state, action: PayloadAction<{ productId: string }>) {
             const prodIndex = state.basket.findIndex(el => el.id === action.payload.productId)
 
             state.basket.splice(prodIndex, 1)
+            updateLocalStorage("userBasket", JSON.stringify(state.basket))
         },
         removeBasket(state, action: PayloadAction) {
             state.basket = []
+            updateLocalStorage("userBasket", JSON.stringify(state.basket))
         },
-        setBasket(state, action: PayloadAction) {
+        setBasketFromLocalStorage(state, action: PayloadAction) {
             const localBasket = localStorage.getItem("userBasket")
             state.basket = JSON.parse(localBasket ? localBasket : "[]")
         }
@@ -71,5 +77,5 @@ export const {
     decreaseCopies,
     removeProductFromBasket,
     removeBasket,
-    setBasket
+    setBasketFromLocalStorage
 } = goodsSlice.actions

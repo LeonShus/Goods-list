@@ -11,7 +11,7 @@ import {appSelectors} from "./s1-bll/b3-selectors/s2-app";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import {SnackBar} from "./s2-common/c3-components/c3-snack-bar/snack-bar";
-import {setBasket} from "./s1-bll/b2-reducers/r1-goods/goods-reducer";
+import {setBasketFromLocalStorage} from "./s1-bll/b2-reducers/r1-goods/goods-reducer";
 
 
 export const App = () => {
@@ -25,7 +25,7 @@ export const App = () => {
 
     useEffect(() => {
         getGoodsList({})
-        dispatch(setBasket())
+        dispatch(setBasketFromLocalStorage())
     }, [])
 
     return (
